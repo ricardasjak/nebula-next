@@ -4,5 +4,8 @@
 	"singleQuote": true,
 	"semi": true,
 	"tabWidth": 4,
-	"printWidth": 100
+	"printWidth": 100,
+	"organizeImportsSkipDestructiveCodeActions": true,
+	"plugins": ["prettier-plugin-organize-imports", "prettier-plugin-tailwindcss"],
+	"pluginSearchDirs": false
 }
