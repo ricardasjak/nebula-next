@@ -8,7 +8,8 @@
 		"start": "next start",
 		"lint": "next lint",
 		"format": "prettier --write .",
-		"fix": "npm run lint -- --fix && npm run format"
+		"fix": "npm run lint -- --fix && npm run format",
+		"deploy": "flyctl deploy"
 	},
 	"dependencies": {
 		"@types/node": "18.16.0",
