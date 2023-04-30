@@ -1,8 +1,15 @@
 import { server } from '@/global';
+import { auth, SignedIn, SignedOut } from '@clerk/nextjs/app-beta';
 import { Inter } from 'next/font/google';
 import Image from 'next/image';
 
+import type { User } from '@clerk/nextjs/api';
+import { currentUser } from '@clerk/nextjs/app-beta';
+import Link from 'next/link';
+
 const inter = Inter({ subsets: ['latin'] });
+
+export const revalidate = 0;
 
 export default function Home() {
 	return (
@@ -11,6 +18,7 @@ export default function Home() {
 				<p className='fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30'>
 					Hello Nebula! {server.counter}
 				</p>
+				<pre>Time: {new Date().toISOString()}</pre>
 
 				<div className='fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none'>
 					<a
@@ -31,6 +39,13 @@ export default function Home() {
 					</a>
 				</div>
 			</div>
+			<SignedIn>
+				<p>You are signed in!</p>
+			</SignedIn>
+			<SignedOut>
+				<p>You are signed out!</p>
+				<Link href='/sign-in'>Sign In</Link>
+			</SignedOut>
 		</main>
 	);
 }
