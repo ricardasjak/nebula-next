@@ -5,13 +5,20 @@ import Image from 'next/image';
 
 import type { User } from '@clerk/nextjs/api';
 import { currentUser } from '@clerk/nextjs/app-beta';
+import { Redis } from '@upstash/redis';
 import Link from 'next/link';
+import { timestamp } from 'yaml/dist/schema/yaml-1.1/timestamp';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const revalidate = 0;
+const redis = Redis.fromEnv();
 
-export default function Home() {
+export default async function Home() {
+	const t1 = new Date().getTime();
+	const answer = await redis.get<string>('hello');
+	const t2 = new Date().getTime();
+
 	return (
 		<main className='flex min-h-screen flex-col items-center justify-between p-24'>
 			<div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'>
@@ -19,6 +26,7 @@ export default function Home() {
 					Hello Nebula! {server.counter}
 				</p>
 				<pre>Time: {new Date().toISOString()}</pre>
+				<pre>{answer + ' ' + (t2 - t1).toString()}</pre>
 
 				<div className='fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none'>
 					<a
