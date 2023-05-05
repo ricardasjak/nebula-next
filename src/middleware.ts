@@ -5,6 +5,8 @@ import { NextResponse } from 'next/server';
 // Set the paths that don't require the user to be signed in
 const publicPaths = ['/', '/sign-in*', '/sign-up*'];
 
+const ENABLE_AUTH = false;
+
 const isPublic = (path: string): boolean => {
 	const publicPath = publicPaths.find((x) =>
 		path.match(new RegExp(`^${x}$`.replace('*$', '($|/)')))
@@ -17,6 +19,10 @@ const isPublic = (path: string): boolean => {
 // });
 
 export default withClerkMiddleware((request: NextRequest) => {
+	if (!ENABLE_AUTH) {
+		return NextResponse.next();
+	}
+
 	// if the user is not signed in redirect them to the sign in page.
 	const auth = getAuth(request);
 	if (isPublic(request.nextUrl.pathname)) {

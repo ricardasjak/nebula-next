@@ -1,13 +1,10 @@
-import { server } from '@/global';
-import { auth, SignedIn, SignedOut } from '@clerk/nextjs/app-beta';
+import { globalState } from '@/global';
+import { SignedIn, SignedOut } from '@clerk/nextjs/app-beta';
+import { Redis } from '@upstash/redis';
 import { Inter } from 'next/font/google';
 import Image from 'next/image';
-
-import type { User } from '@clerk/nextjs/api';
-import { currentUser } from '@clerk/nextjs/app-beta';
-import { Redis } from '@upstash/redis';
 import Link from 'next/link';
-import { timestamp } from 'yaml/dist/schema/yaml-1.1/timestamp';
+import React from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,7 +20,7 @@ export default async function Home() {
 		<main className='flex min-h-screen flex-col items-center justify-between p-24'>
 			<div className='z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex'>
 				<p className='fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30'>
-					Hello Nebula! {server.counter}
+					Hello Nebula! {globalState.counter}
 				</p>
 				<pre>Time: {new Date().toISOString()}</pre>
 				<pre>{answer + ' ' + (t2 - t1).toString()}</pre>

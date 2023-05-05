@@ -1,3 +1,6 @@
-export const server = {
-	counter: 0,
+import { GlobalState } from '@/models/global.model';
+
+export const globalState: GlobalState = {
+	users: new Map(),
+	kingdoms: new Map(),
 };

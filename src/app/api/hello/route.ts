@@ -1,4 +1,4 @@
-import { server } from '@/global';
+import { globalState } from '@/global';
 import { getAuth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -14,8 +14,8 @@ export async function GET(req: NextRequest) {
 	}
 
 	const date = new Date().toISOString();
-	server.counter++;
-	const res = NextResponse.json({ msg: 'Hello Next.js', counter: server.counter, date });
+	globalState.counter++;
+	const res = NextResponse.json({ msg: 'Hello Next.js', counter: globalState.counter, date });
 	res.headers.set('Cache-Control', 'no-store');
 	return res;
 }
