@@ -10,7 +10,7 @@
 		"lint": "next lint",
 		"format": "prettier --write .",
 		"fix": "npm run lint -- --fix && npm run format",
-		"deploy": "flyctl deploy"
+		"deploy": "flyctl deploy --local-only"
 	},
 	"dependencies": {
 		"@clerk/nextjs": "4.17.0",

@@ -1,3 +1,5 @@
+import { appState } from '@/app-state';
+import { Footer } from '@/components/footer/footer.component';
 import { Header } from '@/components/header/header.component';
 import { ClerkProvider } from '@clerk/nextjs/app-beta';
 import { Inter } from 'next/font/google';
@@ -12,7 +14,8 @@ export const metadata = {
 	description: TITLE,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+	const state = await appState();
 	return (
 		<html lang='en'>
 			<head>
@@ -20,8 +23,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 			</head>
 			<ClerkProvider>
 				<body className={inter.className}>
-					<Header />
-					<div>{children}</div>
+					<div className={'flex h-screen flex-col  bg-blue-100'}>
+						{/* @ts-expect-error Async Server Component */}
+						<Header />
+						<div className={'container mx-auto flex-grow'}>{children}</div>
+						<Footer {...state} />
+					</div>
 				</body>
 			</ClerkProvider>
 		</html>

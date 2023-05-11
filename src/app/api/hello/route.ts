@@ -1,4 +1,4 @@
-import { globalState } from '@/global';
+import { appState } from '@/app-state';
 import { getAuth } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -13,9 +13,15 @@ export async function GET(req: NextRequest) {
 		});
 	}
 
+	const state = await appState();
+	state.counter = state.counter + 1;
+	console.log('is equal', global.__appState__ === state);
+
 	const date = new Date().toISOString();
-	globalState.counter++;
-	const res = NextResponse.json({ msg: 'Hello Next.js', counter: globalState.counter, date });
-	res.headers.set('Cache-Control', 'no-store');
+	const res = NextResponse.json({
+		state,
+		date,
+	});
+	//res.headers.set('Cache-Control', 'no-store');
 	return res;
 }

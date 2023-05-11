@@ -1,3 +1,6 @@
+import { appState } from '@/app-state';
+import { userService } from '@/app/user/user.service';
+import { routesUtil } from '@/utils/routes.util';
 import { getAuth, withClerkMiddleware } from '@clerk/nextjs/server';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
@@ -5,7 +8,7 @@ import { NextResponse } from 'next/server';
 // Set the paths that don't require the user to be signed in
 const publicPaths = ['/', '/sign-in*', '/sign-up*'];
 
-const ENABLE_AUTH = false;
+const ENABLE_AUTH = true;
 
 const isPublic = (path: string): boolean => {
 	const publicPath = publicPaths.find((x) =>
@@ -18,14 +21,14 @@ const isPublic = (path: string): boolean => {
 // 	return NextResponse.next();
 // });
 
-export default withClerkMiddleware((request: NextRequest) => {
+export default withClerkMiddleware(async (request: NextRequest) => {
 	if (!ENABLE_AUTH) {
 		return NextResponse.next();
 	}
-
 	// if the user is not signed in redirect them to the sign in page.
 	const auth = getAuth(request);
 	if (isPublic(request.nextUrl.pathname)) {
+		console.log('middleware: this is public url', request.nextUrl.pathname);
 		return NextResponse.next();
 	}
 	if (!auth.userId) {
@@ -34,6 +37,14 @@ export default withClerkMiddleware((request: NextRequest) => {
 		signInUrl.searchParams.set('redirect_url', request.url);
 		return NextResponse.redirect(signInUrl);
 	}
+
+	const user = await userService.getClerkUser(auth.userId);
+	const { initialised } = await appState();
+	if (!user) {
+		console.log('middleware: redirecting to user profile page');
+		return NextResponse.rewrite(new URL(routesUtil.userProfile, request.url));
+	}
+
 	return NextResponse.next();
 });
 

@@ -1,30 +1,29 @@
 //'use client';
-import { UserButton, auth } from '@clerk/nextjs';
-import { NextApiRequest } from 'next';
 
-export const Header: React.FC<{ req?: NextApiRequest }> = ({ req }) => {
-	// const { signOut, isSignedIn, isLoaded } = useAuth();
-	const clerkAuth = auth();
-	// console.log({ clerkAuth });
+import { player } from '@/app/user/player.service';
+import { LoginButton } from '@/components/header/login.component';
+import { auth } from '@clerk/nextjs';
+
+export const Header = async () => {
+	const { userId } = auth();
+
+	const profile = await player.profile(userId);
+	console.log({ userId, profile });
 
 	return (
-		<div className='flex flex-row gap-4 border-b-2 p-4'>
-			<UserButton />
-			{/*{isLoaded &&*/}
-			{/*	(isSignedIn ? (*/}
-			{/*		<span role={'button'} onClick={() => signOut()} className={'justify-self-end'}>*/}
-			{/*			Logout*/}
-			{/*		</span>*/}
-			{/*	) : (*/}
-			{/*		<>*/}
-			{/*			<a className={'justify-self-end'} href={'/sign-up'}>*/}
-			{/*				Create account*/}
-			{/*			</a>*/}
-			{/*			<a className={'justify-self-end'} href={'/sign-in'}>*/}
-			{/*				Login*/}
-			{/*			</a>*/}
-			{/*		</>*/}
-			{/*	))}*/}
+		<div className='flex w-screen flex-row justify-between gap-4 border-b-2 bg-blue-800 px-8 py-8 text-red-100'>
+			{userId ? (
+				<>
+					{profile ? (
+						<span>Welcome, {profile.nickname}</span>
+					) : (
+						<span>Create profile</span>
+					)}
+				</>
+			) : (
+				<div></div>
+			)}
+			<LoginButton />
 		</div>
 	);
 };

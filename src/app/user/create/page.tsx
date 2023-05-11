@@ -1,4 +1,4 @@
-import { userService } from '@/services/user.service';
+import { userService } from '@/app/user/user.service';
 import { routesUtil } from '@/utils/routes.util';
 import { auth, clerkClient } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
@@ -10,8 +10,8 @@ export default async function Page() {
 	if (clerkAuth.userId) {
 		const userClerk = await clerkClient.users.getUser(clerkAuth.userId);
 		if (userClerk) {
-			await userService.register(userClerk.id, userClerk);
+			await userService.saveUser(userClerk.id, { ...userClerk, profileId: 0 });
 		}
 	}
-	redirect(routesUtil.homePage);
+	redirect(routesUtil.userProfile);
 }

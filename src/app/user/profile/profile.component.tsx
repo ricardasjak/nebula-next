@@ -1,6 +1,7 @@
 'use client';
 import { useAuth } from '@clerk/nextjs';
 
+export const revalidate = 0;
 export default function Profile() {
 	const { isLoaded, userId, sessionId, getToken } = useAuth();
 
