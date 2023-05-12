@@ -1,7 +1,7 @@
 import { appState } from '@/app-state';
 import { Footer } from '@/components/footer/footer.component';
 import { Header } from '@/components/header/header.component';
-import { ClerkProvider } from '@clerk/nextjs/app-beta';
+import { ClerkProvider } from '@clerk/nextjs';
 import { Inter } from 'next/font/google';
 import React from 'react';
 import './globals.css';

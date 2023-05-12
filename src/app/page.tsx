@@ -1,8 +1,7 @@
 import { appState } from '@/app-state';
-import { SignedIn, SignedOut } from '@clerk/nextjs/app-beta';
+import { UserButton } from '@clerk/nextjs';
 import { Inter } from 'next/font/google';
 import Image from 'next/image';
-import Link from 'next/link';
 import React from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -20,6 +19,7 @@ export default async function Home() {
 				<p className='fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30'>
 					Hello Nebula! {counter}
 				</p>
+				<UserButton />
 				<pre>Time: {new Date().toISOString()}</pre>sss
 				<pre>{JSON.stringify(counter, null, 2)}</pre>
 				<pre>{'TIME:' + (t2 - t1).toString()}</pre>
@@ -42,13 +42,13 @@ export default async function Home() {
 					</a>
 				</div>
 			</div>
-			<SignedIn>
-				<p>You are signed in!</p>
-			</SignedIn>
-			<SignedOut>
-				<p>You are signed out!</p>
-				<Link href='/sign-in'>Sign In</Link>
-			</SignedOut>
+			{/*<SignedIn>*/}
+			{/*	<p>You are signed in!</p>*/}
+			{/*</SignedIn>*/}
+			{/*<SignedOut>*/}
+			{/*	<p>You are signed out!</p>*/}
+			{/*	<Link href='/sign-in'>Sign In</Link>*/}
+			{/*</SignedOut>*/}
 		</main>
 	);
 }
