@@ -1,6 +1,8 @@
 import { player } from '@/app/user/player.service';
 import { AuthReloader, LoginButton } from '@/components';
+import { routesUtil } from '@/utils/routes.util';
 import { auth } from '@clerk/nextjs';
+import Link from 'next/link';
 
 export const Header = async () => {
 	const { userId } = auth();
@@ -12,14 +14,18 @@ export const Header = async () => {
 			{userId ? (
 				<>
 					{profile ? (
-						<span>Welcome, {profile.nickname}</span>
+						<Link href={routesUtil.userProfile}>Welcome, {profile.nickname}</Link>
 					) : (
-						<span>Create profile</span>
+						<Link href={routesUtil.userProfile}>Create profile</Link>
 					)}
 				</>
 			) : (
 				<div></div>
 			)}
+			<nav className={'grid grid-flow-col gap-8'}>
+				<Link href={routesUtil.userProfile}>Profile</Link>
+				<Link href={routesUtil.kingdomCreate}>Kingdom</Link>
+			</nav>
 			<LoginButton />
 		</div>
 	);

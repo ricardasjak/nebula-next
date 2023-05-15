@@ -1,12 +1,13 @@
 import { player } from '@/app/user/player.service';
 import { userService } from '@/app/user/user.service';
+import { Button } from '@/components';
 import { routesUtil } from '@/utils/routes.util';
 import { auth } from '@clerk/nextjs';
 import { revalidatePath } from 'next/cache';
 
 export default async function Page() {
 	const user = await userService.getClerkUser(auth()?.userId || '');
-	const profile = await player.profile(auth()?.userId);
+	const profile = await player.profile2();
 	if (!user) {
 		throw 'User not found';
 	}
@@ -48,11 +49,11 @@ export default async function Page() {
 	};
 
 	return (
-		<div>
+		<div className={'content'}>
 			<h1 className={'size text- mb-4 text-xl font-bold'}>
-				Dear player, enter your account data
+				Dear commander, update your profile information
 			</h1>
-			<form action={saveProfile} className={'mx-auto grid w-1/2 grid-cols-2 gap-4'}>
+			<form action={saveProfile} className={'grid w-1/2 grid-cols-2 gap-4'}>
 				<label htmlFor='nickname'>Your nickname</label>
 				<input
 					name='nickname'
@@ -70,9 +71,9 @@ export default async function Page() {
 					defaultValue={(user?.emailAddresses || [])[0]?.emailAddress || ''}
 				></input>
 
-				<button type='submit' className={'rounded border border-blue-800'}>
+				<Button type='submit' className={'rounded border border-blue-800'}>
 					Save
-				</button>
+				</Button>
 			</form>
 		</div>
 	);
