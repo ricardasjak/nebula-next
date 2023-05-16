@@ -9,12 +9,12 @@ import { mapUtil } from '@/utils/map.util';
 export const kingdomService = {
 	createKingdom: async (profileId: number, payload: CreateKingdom) => {
 		const profile = await player.profile2();
-		const id = await kingdomService.getNewKingdomId();
 		const {
 			kingdoms,
 			profiles,
 			serverStatus: { roundId },
 		} = await appState();
+		const id = await kingdomService.getNewKingdomId(roundId);
 
 		const newKingdom: Kingdom = {
 			id,

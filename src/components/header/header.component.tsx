@@ -24,6 +24,11 @@ export const Header = async () => {
 			)}
 			<nav className={'grid grid-flow-col gap-8'}>
 				<Link href={routesUtil.userProfile}>Profile</Link>
+				<Link href={routesUtil.overview.status}>My Kingdoms</Link>
+				<Link href={routesUtil.kingdomCreate}>Create Kingdom</Link>
+			</nav>
+			<nav className={'grid grid-flow-col gap-8'}>
+				<Link href={routesUtil.userProfile}>Profile</Link>
 				<Link href={routesUtil.kingdomCreate}>Kingdom</Link>
 			</nav>
 			<LoginButton />

@@ -4,6 +4,10 @@ export const routesUtil = {
 	userCreate: '/user/create',
 	userProfile: '/user/profile',
 	kingdomCreate: '/kingdom/create',
+	overview: {
+		status: '/overview',
+		kingdom: (id: number) => `/overview/${id}`,
+	},
 	admin: {
 		serverStatus: '/admin/server',
 	},

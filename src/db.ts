@@ -30,7 +30,6 @@ export const db = {
 		},
 		loadAll: async (roundId: number): Promise<Map<number, Kingdom>> => {
 			const redisKingdoms = await redis.hgetall(redisUtil.allKingdoms(roundId));
-			console.log({ redisKingdoms });
 			if (!redisKingdoms) {
 				return new Map();
 			}
@@ -41,7 +40,6 @@ export const db = {
 				redisUtil.allKingdoms(roundId),
 				kdid as unknown as string
 			);
-			console.log({ redisKingdom });
 			return (redisKingdom as Kingdom) || undefined;
 		},
 	},
