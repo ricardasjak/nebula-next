@@ -6,10 +6,14 @@ import { revalidatePath } from 'next/cache';
 
 export default async function AdminRoundPage() {
 	const { serverStatus } = await appState();
-	const startNewRound = async () => {
+	const startNewRound = async (formData: FormData) => {
 		'use server';
-		await adminService.startNewRound();
-		revalidatePath(routesUtil.admin.serverStatus);
+		if (formData.get('password') === 'admin-nk') {
+			await adminService.startNewRound();
+			revalidatePath(routesUtil.admin.serverStatus);
+		} else {
+			throw 'Wrong password';
+		}
 	};
 
 	return (
@@ -17,6 +21,9 @@ export default async function AdminRoundPage() {
 			<h1>Server status:</h1>
 			<pre>{JSON.stringify(serverStatus, null, 2)}</pre>
 			<form action={startNewRound}>
+				<input type={'password'} placeholder={'admin password'} name={'password'} />
+				<br />
+				<br />
 				<Button type={'submit'} className={'button'}>
 					Start new round
 				</Button>
