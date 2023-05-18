@@ -11,6 +11,7 @@ export const OverviewKingdoms: React.FC<{ kingdoms: Kingdom[] }> = ({ kingdoms }
 					<li key={kd.id} className={''}>
 						<Link
 							href={routesUtil.overview.kingdom(kd.id)}
+							prefetch={false}
 							className={
 								'flex w-fit flex-row px-4 py-2 hover:cursor-pointer hover:bg-blue-200'
 							}

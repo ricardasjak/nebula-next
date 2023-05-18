@@ -1,6 +1,8 @@
 import { player } from '@/app/user/player.service';
+import { LinkEx } from '@/components';
 import { routesUtil } from '@/utils/routes.util';
-import Link from 'next/link';
+
+export const revalidate = 0;
 
 interface Props {
 	id: string;
@@ -12,9 +14,11 @@ export const KingdomStatusPage = async ({ id }: Props) => {
 	}
 	return (
 		<div>
-			Kingdom {id}
+			Kingdom {id}, {new Date().toLocaleTimeString()}
 			<pre>{JSON.stringify(kd, null, 2)}</pre>
-			<Link href={routesUtil.overview.status}>Back</Link>
+			<LinkEx href={routesUtil.overview.status} prefetch={false}>
+				Back
+			</LinkEx>
 		</div>
 	);
 };

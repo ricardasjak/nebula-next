@@ -1,6 +1,6 @@
+import { LinkEx } from '@/components';
 import { GlobalState } from '@/global';
 import { routesUtil } from '@/utils/routes.util';
-import Link from 'next/link';
 
 export const Footer = (state: GlobalState) => {
 	return (
@@ -11,7 +11,7 @@ export const Footer = (state: GlobalState) => {
 				<p>kingdoms: {state.kingdoms.size}</p>
 			</div>
 			<div>
-				<Link href={routesUtil.admin.serverStatus}>Admin</Link>
+				<LinkEx href={routesUtil.admin.serverStatus}>Admin</LinkEx>
 			</div>
 		</div>
 	);

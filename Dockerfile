@@ -44,7 +44,7 @@ COPY --from=builder /app ./
 
 USER nextjs
 
-CMD fallocate -l 256M /swap_data && mkswap /swap_data && swapon /swap_data && ls -hla; fi; free -m; /app/run
+CMD fallocate -l 512M /swap_data && mkswap /swap_data && swapon /swap_data && ls -hla; fi; free -m; /app/run
 CMD ["npm", "run", "start"]
 # standalone
 #CMD ["node", "server.js"]

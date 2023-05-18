@@ -1,8 +1,7 @@
 import { player } from '@/app/user/player.service';
-import { AuthReloader, LoginButton } from '@/components';
+import { AuthReloader, LinkEx, LoginButton } from '@/components';
 import { routesUtil } from '@/utils/routes.util';
 import { auth } from '@clerk/nextjs';
-import Link from 'next/link';
 
 export const Header = async () => {
 	const { userId } = auth();
@@ -14,23 +13,38 @@ export const Header = async () => {
 			{userId ? (
 				<>
 					{profile ? (
-						<Link href={routesUtil.userProfile}>Welcome, {profile.nickname}</Link>
+						<LinkEx href={routesUtil.userProfile} prefetch={false}>
+							Welcome, {profile.nickname}
+						</LinkEx>
 					) : (
-						<Link href={routesUtil.userProfile}>Create profile</Link>
+						<LinkEx href={routesUtil.userProfile} prefetch={false}>
+							Create profile
+						</LinkEx>
 					)}
 				</>
 			) : (
 				<div></div>
 			)}
 			<nav className={'grid grid-flow-col gap-8'}>
-				<Link href={routesUtil.userProfile}>Profile</Link>
-				<Link href={routesUtil.overview.status}>My Kingdoms</Link>
-				<Link href={routesUtil.kingdomCreate}>Create Kingdom</Link>
+				<LinkEx href={routesUtil.userProfile} prefetch={false}>
+					Profile
+				</LinkEx>
+				<LinkEx href={routesUtil.overview.status} prefetch={false}>
+					My Kingdoms
+				</LinkEx>
+				<LinkEx href={routesUtil.kingdomCreate} prefetch={false}>
+					Create Kingdom
+				</LinkEx>
 			</nav>
 			<nav className={'grid grid-flow-col gap-8'}>
-				<Link href={routesUtil.userProfile}>Profile</Link>
-				<Link href={routesUtil.kingdomCreate}>Kingdom</Link>
+				<LinkEx href={routesUtil.userProfile} prefetch={false}>
+					Profile
+				</LinkEx>
+				<LinkEx href={routesUtil.kingdomCreate} prefetch={false}>
+					Kingdom
+				</LinkEx>
 			</nav>
+			<pre>{new Date().toLocaleTimeString()}</pre>
 			<LoginButton />
 		</div>
 	);

@@ -9,6 +9,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 const TITLE = 'Nebula Kingdoms - MMO game';
+export const revalidate = 0;
 export const metadata = {
 	title: TITLE,
 	description: TITLE,

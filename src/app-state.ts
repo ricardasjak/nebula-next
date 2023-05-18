@@ -29,6 +29,7 @@ export const appState = async () => {
 		global.__appState__.kingdoms = await db.kingdoms.loadAll(
 			global.__appState__.serverStatus.roundId
 		);
+		global.__appState__.initialised = true;
 	}
 	return global.__appState__;
 };
