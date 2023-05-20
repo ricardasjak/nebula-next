@@ -20,6 +20,7 @@ export interface RoundStatus {
 export interface ServerStatus {
 	roundId: number;
 	mode: 'maintenance' | 'paused' | 'sign-ups' | 'newbie-mode' | 'game-mode' | 'chaos-mode';
+	tick: number;
 }
 
 export interface User extends ClerkUser {

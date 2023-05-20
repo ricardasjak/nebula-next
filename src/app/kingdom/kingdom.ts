@@ -6,7 +6,7 @@ import { db } from '@/db';
 import { dateUtil } from '@/utils/date.util';
 import { mapUtil } from '@/utils/map.util';
 
-export const kingdomService = {
+export const kingdom = {
 	createKingdom: async (profileId: number, payload: CreateKingdom) => {
 		const profile = await player.profile2();
 		const {
@@ -14,7 +14,7 @@ export const kingdomService = {
 			profiles,
 			serverStatus: { roundId },
 		} = await appState();
-		const id = await kingdomService.getNewKingdomId(roundId);
+		const id = await kingdom.getNewKingdomId(roundId);
 
 		const newKingdom: Kingdom = {
 			id,

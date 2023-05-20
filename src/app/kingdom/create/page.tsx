@@ -1,5 +1,5 @@
+import { kingdom } from '@/app/kingdom/kingdom';
 import { PlanetType, PlanetTypes, RaceType, RaceTypes } from '@/app/kingdom/kingdom.model';
-import { kingdomService } from '@/app/kingdom/kingdom.service';
 import { player } from '@/app/user/player.service';
 import { userService } from '@/app/user/user.service';
 import { Button } from '@/components';
@@ -9,7 +9,6 @@ import { revalidatePath } from 'next/cache';
 
 export default async function Page() {
 	const user = await userService.getClerkUser(auth()?.userId || '');
-	const profile = await player.profile(auth()?.userId);
 	if (!user) {
 		throw 'User not found';
 	}
@@ -25,7 +24,7 @@ export default async function Page() {
 		const race = data.get('race') as RaceType;
 
 		console.info('createKingdom: save kingdom', profile.id);
-		await kingdomService.createKingdom(profile.id, {
+		await kingdom.createKingdom(profile.id, {
 			name,
 			ruler,
 			planet,

@@ -21,7 +21,7 @@ export const db = {
 		},
 		load: async (): Promise<ServerStatus> => {
 			const result = await redis.json.get(redisUtil.serverStatus, '$');
-			return toResult(result) || { roundId: 0, mode: 'maintenance' };
+			return toResult(result) || { roundId: 0, mode: 'maintenance', tick: 0 };
 		},
 	},
 	kingdoms: {
@@ -41,6 +41,26 @@ export const db = {
 				kdid as unknown as string
 			);
 			return (redisKingdom as Kingdom) || undefined;
+		},
+	},
+	test: {
+		update: async (kd: Kingdom[]) => {
+			const payload = {};
+			const time = new Date().getMilliseconds();
+			for (let i = 0; i < 3000; i++) {
+				// @ts-ignore
+				payload[time * 10000 + i] = { ...kd[0] };
+			}
+			console.time('test:redis');
+			await redis.hset('test:map', payload);
+			console.timeEnd('test:redis');
+			console.log('**** payload length: ', JSON.stringify(payload).length.toLocaleString());
+		},
+		load: async () => {
+			console.time('test:redis:load');
+			const response = await redis.hgetall('test:map');
+			console.timeEnd('test:redis:load');
+			console.log('**** response length: ', JSON.stringify(response).length.toLocaleString());
 		},
 	},
 };

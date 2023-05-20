@@ -15,7 +15,7 @@ if (!global.__appState__) {
 		profiles: new Map(),
 		kingdoms: new Map(),
 		roundStatus: new Map(),
-		serverStatus: { roundId: 0, mode: 'maintenance' },
+		serverStatus: { roundId: 0, mode: 'maintenance', tick: 0 },
 		initialised: false,
 	};
 }
