@@ -1,5 +1,5 @@
 'use client';
-import { Kingdom } from '@/app/kingdom/kingdom.model';
+import { Kingdom } from '@/models/kingdom.model';
 import { routesUtil } from '@/utils/routes.util';
 import Link from 'next/link';
 

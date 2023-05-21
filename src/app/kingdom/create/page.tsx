@@ -1,8 +1,8 @@
-import { kingdom } from '@/app/kingdom/kingdom';
-import { PlanetType, PlanetTypes, RaceType, RaceTypes } from '@/app/kingdom/kingdom.model';
-import { player } from '@/app/user/player.service';
 import { userService } from '@/app/user/user.service';
 import { Button } from '@/components';
+import { PlanetType, PlanetTypes, RaceType, RaceTypes } from '@/models/kingdom.model';
+import { kingdom } from '@/services/kingdom.service';
+import { player } from '@/services/player.service';
 import { routesUtil } from '@/utils/routes.util';
 import { auth } from '@clerk/nextjs';
 import { revalidatePath } from 'next/cache';

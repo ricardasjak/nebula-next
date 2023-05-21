@@ -1,5 +1,5 @@
-import { player } from '@/app/user/player.service';
 import { AuthReloader, LinkEx, LoginButton } from '@/components';
+import { player } from '@/services/player.service';
 import { routesUtil } from '@/utils/routes.util';
 import { auth } from '@clerk/nextjs';
 

@@ -11,6 +11,12 @@ export type RaceType = (typeof RaceTypes)[number];
 
 export type KingdomState = 'Mobilization' | 'Growth';
 
+export const BuildingTypes = ['res', 'bar', 'sm', 'fp', 'tc', 'pf', 'asb'] as const;
+export type BuildingType = (typeof BuildingTypes)[number];
+
+export const UnitTypes = ['sol', 'lt', 'tr', 'dr', 'ld', 't', 'hgl', 'tf', 'sci'] as const;
+export type UnitType = (typeof UnitTypes)[number];
+
 export type Error = string | undefined;
 
 export interface KingdomBase {
@@ -32,8 +38,8 @@ export interface KingdomBase {
 export interface CreateKingdom {
 	name: string;
 	ruler: string;
-	planet: (typeof PlanetTypes)[number];
-	race: (typeof RaceTypes)[number];
+	planet: PlanetType;
+	race: RaceType;
 }
 
 export type Kingdom = KingdomBase & Entity;
@@ -46,29 +52,9 @@ export interface KingdomEntityWithSnapshots extends KingdomBase {
 // 	snapshots: Map<number, KingdomSnapshot>;
 // }
 
-export type Buildings = {
-	residences: number;
-	starMines: number;
-	barracks: number;
-	powerPlants: number;
-	trainingCamps: number;
-};
-
-export type UnitType = 'soldiers' | 'lt' | 'tr' | 'dr' | 'ld' | 'tanks' | 'hgl' | 'tf' | 'sci';
+export type Buildings = Record<BuildingType, number>;
 
 export type Military = Record<UnitType, number>;
-
-// export type Military = {
-// 	soldiers: number;
-// 	lt: number;
-// 	tr: number;
-// 	dr: number;
-// 	ld: number;
-// 	tanks: number;
-// 	hgl: number;
-// 	tf: number;
-// 	sci: number;
-// };
 
 export type ResearchType = {
 	points: number;
@@ -90,19 +76,22 @@ export type Snapshot = {
 	nw: number;
 	land: number;
 	money: number;
+	probes: number;
+	pop: number;
+	xp: number;
 	buildings: Buildings;
 	military: Military;
 	research: Research;
 	queues: {
-		buildings: Buildings[];
-		military: Record<UnitType, number[]>;
-		land: number[];
+		buildings: Partial<Record<BuildingType, number[]>>;
+		military: Partial<Record<UnitType, number[]>>;
+		land?: number[];
 	};
 };
 
 export type KingdomSnapshot = {
 	tick: number;
-	kdid: number;
-	body: Snapshot;
-	created_at?: unknown;
+	kdId: number;
+	snapshot: Snapshot;
+	created_at?: string;
 };

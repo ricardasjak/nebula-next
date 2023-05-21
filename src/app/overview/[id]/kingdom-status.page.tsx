@@ -1,5 +1,5 @@
-import { player } from '@/app/user/player.service';
 import { LinkEx } from '@/components';
+import { player } from '@/services/player.service';
 import { routesUtil } from '@/utils/routes.util';
 
 export const revalidate = 0;

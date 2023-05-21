@@ -1,6 +1,6 @@
 import { appState } from '@/app-state';
-import { Kingdom } from '@/app/kingdom/kingdom.model';
 import { Profile } from '@/global';
+import { Kingdom } from '@/models/kingdom.model';
 import { mapUtil } from '@/utils/map.util';
 import { auth } from '@clerk/nextjs';
 

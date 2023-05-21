@@ -1,12 +1,19 @@
-import { Kingdom } from '@/app/kingdom/kingdom.model';
+import { Kingdom, KingdomSnapshot } from '@/models/kingdom.model';
 import { User as ClerkUser } from '@clerk/backend/dist/types/api/resources';
+
+export type KdID = number;
+export type RoundID = number;
+export type TickID = number;
+export type ProfileID = number;
+export type ServerSnapshot = Map<TickID, Map<KdID, KingdomSnapshot>>;
 
 export interface GlobalState {
 	serverStatus: ServerStatus;
-	roundStatus: Map<number, RoundStatus>;
+	roundStatus: Map<RoundID, RoundStatus>;
 	users: Map<string, User>;
-	kingdoms: Map<number, Kingdom>;
-	profiles: Map<number, Profile>;
+	kingdoms: Map<KdID, Kingdom>;
+	snapshots: ServerSnapshot;
+	profiles: Map<ProfileID, Profile>;
 	counter: number;
 	initialised: boolean;
 }

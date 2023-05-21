@@ -1,6 +1,6 @@
-import { player } from '@/app/user/player.service';
 import { userService } from '@/app/user/user.service';
 import { Button } from '@/components';
+import { player } from '@/services/player.service';
 import { routesUtil } from '@/utils/routes.util';
 import { auth } from '@clerk/nextjs';
 import { revalidatePath } from 'next/cache';

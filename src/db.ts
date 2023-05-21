@@ -1,5 +1,5 @@
-import { Kingdom } from '@/app/kingdom/kingdom.model';
-import { ServerStatus } from '@/global';
+import { KdID, RoundID, ServerStatus, TickID } from '@/global';
+import { Kingdom, KingdomSnapshot } from '@/models/kingdom.model';
 import { redisUtil } from '@/utils/redis.util';
 import { Redis } from '@upstash/redis';
 
@@ -10,6 +10,7 @@ const toMap = <K = number | string, V = unknown>(redisMap: Record<string, unknow
 	for (const [key, value] of Object.entries(redisMap)) {
 		result.set(key as K, value as V);
 	}
+	//console.log
 	return result as Map<K, V>;
 };
 const redis = Redis.fromEnv();
@@ -25,22 +26,52 @@ export const db = {
 		},
 	},
 	kingdoms: {
-		updateAll: async (roundId: number, kingdoms: Map<number, Kingdom>) => {
+		updateAll: async (roundId: RoundID, kingdoms: Map<number, Kingdom>) => {
 			return redis.hset(redisUtil.allKingdoms(roundId), Object.fromEntries(kingdoms));
 		},
 		loadAll: async (roundId: number): Promise<Map<number, Kingdom>> => {
-			const redisKingdoms = await redis.hgetall(redisUtil.allKingdoms(roundId));
-			if (!redisKingdoms) {
+			const redisData = await redis.hgetall(redisUtil.allKingdoms(roundId));
+			console.log({ redisData });
+			if (!redisData) {
+				return toMap<number, Kingdom>({});
 				return new Map();
 			}
-			return toMap<number, Kingdom>(redisKingdoms);
+			return toMap<number, Kingdom>(redisData);
 		},
-		loadOne: async (roundId: number, kdid: number): Promise<Kingdom | undefined> => {
+		loadOne: async (roundId: RoundID, kdid: KdID): Promise<Kingdom | undefined> => {
 			const redisKingdom = await redis.hget(
 				redisUtil.allKingdoms(roundId),
 				kdid as unknown as string
 			);
 			return (redisKingdom as Kingdom) || undefined;
+		},
+	},
+	snapshots: {
+		updateAll: async (
+			roundId: RoundID,
+			tick: TickID,
+			snapshots: Map<KdID, KingdomSnapshot>
+		) => {
+			return redis.hset(redisUtil.allSnapshots(roundId, tick), Object.fromEntries(snapshots));
+		},
+		loadAll: async (roundId: number, tick: number): Promise<Map<KdID, KingdomSnapshot>> => {
+			const redisData = await redis.hgetall(redisUtil.allSnapshots(roundId, tick));
+			if (!redisData) {
+				return new Map(); //.set(tick, new Map());
+			}
+			const snap = toMap<KdID, KingdomSnapshot>(redisData);
+			return snap;
+		},
+		loadOne: async (
+			roundId: RoundID,
+			tick: TickID,
+			kdid: KdID
+		): Promise<KingdomSnapshot | undefined> => {
+			const redisData = await redis.hget(
+				redisUtil.allSnapshots(roundId, tick),
+				kdid as unknown as string
+			);
+			return (redisData as KingdomSnapshot) || undefined;
 		},
 	},
 	test: {

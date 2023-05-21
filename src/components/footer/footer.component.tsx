@@ -8,7 +8,12 @@ export const Footer = (state: GlobalState) => {
 			<div>
 				<p>users: {state.users.size}</p>
 				<p>profiles: {state.profiles.size}</p>
+				<p>tick: {state.serverStatus.tick}</p>
+			</div>
+			<div>
 				<p>kingdoms: {state.kingdoms.size}</p>
+				<p>snapshots: {state.snapshots.get(state.serverStatus.tick)?.size}</p>
+				<p>ticks in memory: {state.snapshots.size}</p>
 			</div>
 			<div>
 				<LinkEx href={routesUtil.admin.serverStatus}>Admin</LinkEx>

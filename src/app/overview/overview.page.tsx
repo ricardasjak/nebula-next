@@ -1,5 +1,5 @@
 import { OverviewKingdoms } from '@/app/overview/overview-kingdoms.component';
-import { player } from '@/app/user/player.service';
+import { player } from '@/services/player.service';
 
 export const OverviewPage = async () => {
 	const kingdoms = await player.kingdoms();

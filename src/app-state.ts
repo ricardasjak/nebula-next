@@ -1,6 +1,5 @@
-import { userService } from '@/app/user/user.service';
-import { db } from '@/db';
 import { GlobalState } from '@/global';
+import { server } from '@/services/server.service';
 
 const isProduction = process.env.NODE_ENV === 'production'; // && false;
 
@@ -15,6 +14,7 @@ if (!global.__appState__) {
 		profiles: new Map(),
 		kingdoms: new Map(),
 		roundStatus: new Map(),
+		snapshots: new Map(),
 		serverStatus: { roundId: 0, mode: 'maintenance', tick: 0 },
 		initialised: false,
 	};
@@ -23,13 +23,7 @@ if (!global.__appState__) {
 export const appState = async () => {
 	if (!global.__appState__.initialised) {
 		console.log('**************** LOADING STATE ***************');
-		global.__appState__.users = await userService.loadUsers();
-		global.__appState__.profiles = await userService.loadProfiles();
-		global.__appState__.serverStatus = await db.serverStatus.load();
-		global.__appState__.kingdoms = await db.kingdoms.loadAll(
-			global.__appState__.serverStatus.roundId
-		);
-		global.__appState__.initialised = true;
+		global.__appState__ = await server.loadState();
 	}
 	return global.__appState__;
 };
