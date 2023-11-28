@@ -7,6 +7,7 @@ import {
 	CreateKingdom,
 	Kingdom,
 	KingdomSnapshot,
+	Snapshot,
 } from '@/models/kingdom.model';
 import { NEW_KINGDOM_SNAPSHOT } from '@/services/parameters/new-kingdom-snapshot.const';
 import { player } from '@/services/player.service';
@@ -69,6 +70,16 @@ export const kingdom = {
 		await userService.saveProfiles(profiles);
 
 		console.info('createKingdom: success', id, payload.name);
+		return id;
+	},
+	snapshot: async (kdid: number): Promise<Snapshot> => {
+		const tick = await server.tick();
+		const { snapshots } = await appState();
+		const result = snapshots.get(tick)?.get(kdid)?.snapshot;
+		if (!result) {
+			throw `Kingdom: snapshot not found. Tick: ${tick}, kdid: ${kdid}`;
+		}
+		return result;
 	},
 	getNewKingdomId: async (roundId: number) => {
 		const { kingdoms } = await appState();
@@ -99,7 +110,7 @@ export const kingdom = {
 			sol * 3
 		);
 	},
-	landBuilt: (b: Buildings) => {
+	landBuilt: (b: Buildings): number => {
 		return Object.keys(b).reduce((result: number, key) => {
 			result += (b[key as BuildingType] || 0) as number;
 			return result;

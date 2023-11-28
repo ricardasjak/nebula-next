@@ -6,6 +6,7 @@ import { player } from '@/services/player.service';
 import { routesUtil } from '@/utils/routes.util';
 import { auth } from '@clerk/nextjs';
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 export default async function Page() {
 	const user = await userService.getClerkUser(auth()?.userId || '');
@@ -24,7 +25,7 @@ export default async function Page() {
 		const race = data.get('race') as RaceType;
 
 		console.info('createKingdom: save kingdom', profile.id);
-		await kingdom.createKingdom(profile.id, {
+		const id = await kingdom.createKingdom(profile.id, {
 			name,
 			ruler,
 			planet,
@@ -32,6 +33,7 @@ export default async function Page() {
 		});
 
 		revalidatePath(routesUtil.kingdomCreate);
+		redirect(routesUtil.overview.kingdom(id));
 	};
 
 	return (

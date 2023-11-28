@@ -17,7 +17,6 @@ export const metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
 	const state = await appState();
-	console.log({ state });
 	return (
 		<html lang='en'>
 			<head>

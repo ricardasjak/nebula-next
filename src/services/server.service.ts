@@ -16,6 +16,7 @@ export const server = {
 		console.log({ kingdoms });
 		const snaps = await db.snapshots.loadAll(serverStatus.roundId, serverStatus.tick);
 		console.timeEnd('loading server state');
+		console.log(snaps.size);
 
 		return {
 			serverStatus,
@@ -25,7 +26,7 @@ export const server = {
 			counter: 0,
 			initialised: true,
 			roundStatus: new Map(),
-			snapshots: new Map().set(serverStatus.tick, snaps),
+			snapshots: snaps.size ? new Map().set(serverStatus.tick, snaps) : new Map(),
 		};
 	},
 };

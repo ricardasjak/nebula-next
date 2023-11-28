@@ -10,5 +10,6 @@ export const routesUtil = {
 	},
 	admin: {
 		serverStatus: '/admin/server',
+		state: '/admin/state',
 	},
 };

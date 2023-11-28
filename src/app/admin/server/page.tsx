@@ -9,7 +9,8 @@ import { routesUtil } from '@/utils/routes.util';
 import { revalidatePath } from 'next/cache';
 
 export default async function AdminRoundPage() {
-	const { serverStatus, kingdoms, snapshots } = await appState();
+	const state = await appState();
+	const { serverStatus, kingdoms, snapshots } = state;
 	const startNewRound = async (formData: FormData) => {
 		'use server';
 		if (formData.get('password') === 'admin-nk') {
@@ -24,18 +25,21 @@ export default async function AdminRoundPage() {
 		'use server';
 		const { kingdoms } = await appState();
 		await db.test.update(mapUtil.toValues(kingdoms));
+		revalidatePath(routesUtil.admin.serverStatus);
 	};
 
 	const loadTest = async () => {
 		'use server';
 		await db.test.load();
+		revalidatePath(routesUtil.admin.serverStatus);
 	};
 
 	const reloadServer = async () => {
 		'use server';
-		const s1 = await appState();
+		const s1 = { ...(await appState()) };
 		await server.loadState();
 		const s2 = await appState();
+		revalidatePath(routesUtil.admin.serverStatus);
 		if (JSON.stringify(s1) === JSON.stringify(s2)) {
 			console.log('***** ADMIN, state reload, state has not changed.');
 		} else {
@@ -84,6 +88,9 @@ export default async function AdminRoundPage() {
 					<pre>{JSON.stringify(kingdom, null, 2)}</pre>
 					-----
 					<pre>{JSON.stringify(snapshots.get(0), null, 2)}</pre>
+				</div>
+				<div>
+					<pre>{JSON.stringify(state, null, 2)}</pre>
 				</div>
 			</div>
 		</div>

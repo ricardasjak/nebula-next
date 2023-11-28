@@ -16,7 +16,12 @@ export const Footer = (state: GlobalState) => {
 				<p>ticks in memory: {state.snapshots.size}</p>
 			</div>
 			<div>
-				<LinkEx href={routesUtil.admin.serverStatus}>Admin</LinkEx>
+				<p>
+					<LinkEx href={routesUtil.admin.serverStatus}>Admin</LinkEx>
+				</p>
+				<p>
+					<LinkEx href={routesUtil.admin.state}>State</LinkEx>
+				</p>
 			</div>
 		</div>
 	);
